@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-POP MBTI 테스트 ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .question-box {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #764ba2;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(118, 75, 162, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .option:hover {
+            transform: translateY(-3px);
+            border-color: #764ba2;
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.3);
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .start-screen, .result-screen {
+            text-align: center;
+        }
+
+        .start-btn, .restart-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+        }
+
+        .start-btn:hover, .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(118, 75, 162, 0.5);
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .result-type {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .result-desc {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .idol-match {
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .idol-match h3 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .question {
+                font-size: 18px;
+            }
+
+            .option {
+                padding: 15px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🎤✨</div>
+            <h1>K-POP MBTI 테스트</h1>
+            <p class="subtitle">나의 K-POP 아이돌 성격 유형은?</p>
+        </div>
+
+        <div id="startScreen" class="start-screen">
+            <p style="font-size: 18px; color: #666; margin-bottom: 20px;">
+                12개의 질문으로 알아보는<br>
+                나만의 K-POP 아이돌 성향! 🌟
+            </p>
+            <button class="start-btn" onclick="startTest()">테스트 시작하기</button>
+        </div>
+
+        <div id="testScreen" class="hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-number" id="questionNumber"></div>
+                <div class="question" id="question"></div>
+            </div>
+
+            <div class="options" id="options"></div>
+        </div>
+
+        <div id="resultScreen" class="hidden result-screen">
+            <div class="result-card">
+                <div class="result-type" id="resultType"></div>
+                <div class="result-title" id="resultTitle"></div>
+                <div class="result-desc" id="resultDesc"></div>
+            </div>
+
+            <div class="idol-match">
+                <h3>🎵 비슷한 성향의 아이돌</h3>
+                <p id="idolMatch" style="font-size: 16px; margin-top: 10px;"></p>
+            </div>
+
+            <button class="restart-btn" onclick="location.reload()">다시 테스트하기</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "콘서트에 처음 온 친구와 함께라면?",
+                a: { text: "먼저 말을 걸고 친해지려 노력한다", type: "E" },
+                b: { text: "친구가 말을 걸 때까지 기다린다", type: "I" }
+            },
+            {
+                q: "새로운 안무를 배울 때 나는?",
+                a: { text: "전체적인 느낌과 표현을 먼저 생각한다", type: "N" },
+                b: { text: "정확한 동작 하나하나를 따라한다", type: "S" }
+            },
+            {
+                q: "팬미팅에서 팬의 선물을 받았다면?",
+                a: { text: "선물의 의미와 마음을 먼저 생각한다", type: "F" },
+                b: { text: "선물이 실용적인지 판단한다", type: "T" }
+            },
+            {
+                q: "무대 준비를 할 때 나는?",
+                a: { text: "철저하게 계획하고 체크리스트를 만든다", type: "J" },
+                b: { text: "즉흥적으로 상황에 맞춰 준비한다", type: "P" }
+            },
+            {
+                q: "공연 후 회식 자리에서 나는?",
+                a: { text: "여러 사람들과 활발하게 대화한다", type: "E" },
+                b: { text: "친한 사람들과 조용히 이야기한다", type: "I" }
+            },
+            {
+                q: "새 앨범 콘셉트를 정할 때?",
+                a: { text: "상상력을 발휘해 독특한 아이디어를 낸다", type: "N" },
+                b: { text: "트렌드와 현실성을 고려해 제안한다", type: "S" }
+            },
+            {
+                q: "멤버와 의견이 다를 때?",
+                a: { text: "상대방의 감정을 배려하며 말한다", type: "F" },
+                b: { text: "논리적으로 설득하려 한다", type: "T" }
+            },
+            {
+                q: "투어 일정이 잡혔을 때?",
+                a: { text: "미리 일정표를 만들고 준비한다", type: "J" },
+                b: { text: "대충 정하고 그때그때 맞춘다", type: "P" }
+            },
+            {
+                q: "휴가 때 나는?",
+                a: { text: "친구들을 만나고 활동적으로 보낸다", type: "E" },
+                b: { text: "집에서 혼자 취미생활을 즐긴다", type: "I" }
+            },
+            {
+                q: "작사를 할 때?",
+                a: { text: "추상적이고 은유적인 표현을 쓴다", type: "N" },
+                b: { text: "구체적이고 직관적인 표현을 쓴다", type: "S" }
+            },
+            {
+                q: "팬이 고민 상담을 요청한다면?",
+                a: { text: "공감하고 위로해준다", type: "F" },
+                b: { text: "해결책을 제시해준다", type: "T" }
+            },
+            {
+                q: "데뷔 준비를 할 때?",
+                a: { text: "체계적으로 단계별로 준비한다", type: "J" },
+                b: { text: "융통성 있게 유연하게 준비한다", type: "P" }
+            }
+        ];
+
+        const results = {
+            ISTJ: { title: "완벽주의 메인보컬", desc: "철저하고 책임감 있는 당신! 연습실을 가장 늦게까지 지키는 프로페셔널한 아이돌입니다.", idol: "레드벨벳 아이린, EXO 수호" },
+            ISFJ: { title: "다정한 팀 케어러", desc: "따뜻하고 헌신적인 당신! 멤버들을 챙기는 그룹의 엄마/아빠 역할을 톡톡히 합니다.", idol: "BTS 진, 트와이스 정연" },
+            INFJ: { title: "이상주의 작사가", desc: "깊은 사고를 가진 당신! 팬들의 마음을 울리는 가사와 무대를 만들어냅니다.", idol: "방탄소년단 RM, 태연" },
+            INTJ: { title: "전략적 프로듀서", desc: "완벽을 추구하는 당신! 음악과 퍼포먼스를 논리적으로 분석하고 발전시킵니다.", idol: "블랙핑크 제니, 엑소 카이" },
+            ISTP: { title: "쿨한 댄스머신", desc: "침착하고 실력파인 당신! 무대 위에서 카리스마를 발산하는 퍼포머입니다.", idol: "세븐틴 디노, 에스파 카리나" },
+            ISFP: { title: "감성 아티스트", desc: "예술적이고 자유로운 당신! 독특한 감성으로 무대를 표현하는 아이돌입니다.", idol: "BTS 정국, 아이유" },
+            INFP: { title: "몽상가 비주얼", desc: "감수성 풍부한 당신! 순수하고 따뜻한 매력으로 팬들의 사랑을 받습니다.", idol: "방탄소년단 지민, 트와이스 사나" },
+            INTP: { title: "천재 작곡가", desc: "논리적이고 창의적인 당신! 독창적인 음악으로 K-POP의 새 역사를 씁니다.", idol: "악뮤 이찬혁, 우지(세븐틴)" },
+            ESTP: { title: "에너자이저 센터", desc: "활발하고 대담한 당신! 무대를 장악하는 타고난 엔터테이너입니다.", idol: "BTS 제이홉, 블랙핑크 리사" },
+            ESFP: { title: "비타민 예능돌", desc: "밝고 사교적인 당신! 예능에서 빛나는 분위기 메이커입니다.", idol: "세븐틴 승관, 트와이스 나연" },
+            ENFP: { title: "열정 크리에이터", desc: "열정적이고 자유로운 당신! 끊임없는 아이디어로 팀을 이끕니다.", idol: "방탄소년단 뷔, 있지 예지" },
+            ENTP: { title: "아이디어 뱅크 리더", desc: "혁신적이고 도전적인 당신! 새로운 콘셉트를 제시하는 트렌드세터입니다.", idol: "샤이니 키, 블랙핑크 지수" },
+            ESTJ: { title: "카리스마 리더", desc: "효율적이고 결단력 있는 당신! 강력한 리더십으로 팀을 이끕니다.", idol: "빅뱅 탑, 레드벨벳 슬기" },
+            ESFJ: { title: "인기만점 센터", desc: "친절하고 사교적인 당신! 팬들과의 소통을 즐기는 인기 아이돌입니다.", idol: "트와이스 지효, NCT 재현" },
+            ENFJ: { title: "카리스마 메인댄서", desc: "열정적이고 영향력 있는 당신! 무대에서 모두를 사로잡는 퍼포머입니다.", idol: "BTS 슈가, 에스파 윈터" },
+            ENTJ: { title: "야망의 아이콘", desc: "결단력 있고 리더십 강한 당신! 목표를 향해 팀을 이끄는 CEO형 아이돌입니다.", idol: "GD(빅뱅), 블랙핑크 로제" }
+        };
+
+        let currentQ = 0;
+        let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+
+        function startTest() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQ];
+            document.getElementById('questionNumber').textContent = `Question ${currentQ + 1} / ${questions.length}`;
+            document.getElementById('question').textContent = q.q;
+            document.getElementById('progressFill').style.width = ((currentQ + 1) / questions.length * 100) + '%';
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = `
+                <div class="option" onclick="selectAnswer('${q.a.type}')">${q.a.text}</div>
+                <div class="option" onclick="selectAnswer('${q.b.type}')">${q.b.text}</div>
+            `;
+        }
+
+        function selectAnswer(type) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => {
+                if (opt.textContent.includes(type)) {
+                    opt.classList.add('selected');
+                }
+            });
+
+            scores[type]++;
+
+            setTimeout(() => {
+                currentQ++;
+                if (currentQ < questions.length) {
+                    showQuestion();
+                } else {
+                    showResult();
+                }
+            }, 400);
+        }
+
+        function showResult() {
+            const mbti = 
+                (scores.E > scores.I ? 'E' : 'I') +
+                (scores.S > scores.N ? 'S' : 'N') +
+                (scores.T > scores.F ? 'T' : 'F') +
+                (scores.J > scores.P ? 'J' : 'P');
+
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            const result = results[mbti];
+            document.getElementById('resultType').textContent = mbti;
+            document.getElementById('resultTitle').textContent = result.title;
+            document.getElementById('resultDesc').textContent = result.desc;
+            document.getElementById('idolMatch').textContent = result.idol;
+        }
+    </script>
+</body>
+</html>
